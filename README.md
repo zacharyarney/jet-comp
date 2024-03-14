@@ -34,3 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Database Setup
+
+This project uses [Prisma](https://www.prisma.io/) to connect to a database. You can use the following steps to set up a database:
+
+1. Create a new PostgreSQL database and add the connection string to the `.env` file.
+2. run `npm run db:setup` to create the database schema and seed the database with initial data from `jet_facts.csv`.
