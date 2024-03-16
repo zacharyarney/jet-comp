@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import openai from '@/lib/openai';
 import { openaiSystemMessage, userMessage } from '@/lib/openaiMessages';
 import { ComparisonItem } from '@/lib/hooks/useCompare';
+import { OPENAI_MODEL } from '@/lib/constants';
 
 export interface CompletionResponse {
   data: ComparisonItem[];
@@ -30,9 +31,22 @@ export async function POST(req: NextRequest) {
   }
 
   const messages = [openaiSystemMessage, userMessage(input)];
+
+  /**
+   * Using OpenAI's Chat API over the new Assistant API mostly for cost reasons.
+   * This application doesn't require the context window or need to ask questions.
+   *
+   * With a static list of jets, this endpoint could be cached so that we're not
+   * hitting OpenAI on every request. The response it gives should be consistent.
+   * We could even create a new database table for stored responses since there
+   * is a relatively small number of possible comparisons.
+   *
+   * But if the list of jets is dynamic, we would want a way to invalidate the
+   * cache when the list changes and may opt for a more temporary caching solution.
+   */
   const completion = await openai.chat.completions.create({
     messages,
-    model: 'gpt-3.5-turbo',
+    model: OPENAI_MODEL,
   });
 
   const data: CompletionResponse = completion.choices[0].message.content

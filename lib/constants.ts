@@ -2,6 +2,8 @@ import { Jet } from '@prisma/client';
 import { JetTableColumnKey, SortDirection } from '@/components/JetsTable';
 import { ComparisonTableColumnKey } from '@/components/ComparisonTable';
 
+export const OPENAI_MODEL = 'gpt-3.5-turbo'
+
 export const JET_TABLE_KEYS: JetTableColumnKey[] = [
   'name',
   'wingspan',
