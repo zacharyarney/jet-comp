@@ -12,8 +12,8 @@ export interface CompletionResponse {
  * POST /api/compare
  * @summary Makes a request to OpenAI API with a prompt generated from the user input and parses the response to JSON
  * @param {Jet[]} req.body.planes.required - array of selected jets - application/json
- * @return {array<ComparisonItem>} 200 - success response - application/json
- * @return {object} 400 - error response - application/json
+ * @return {Promise<NextResponse>} 200 - success response - application/json
+ * @return {Promise<NextResponse>} 400 - error response - application/json
  */
 export async function POST(req: NextRequest) {
   const input = await req.json();
@@ -49,14 +49,25 @@ export async function POST(req: NextRequest) {
     model: OPENAI_MODEL,
   });
 
-  const data: CompletionResponse = completion.choices[0].message.content
-    ? JSON.parse(completion.choices[0].message.content)
+  const data = completion.choices[0].message.content;
+
+  if (data?.startsWith('```')) {
+    console.log('DATA:', data);
+  }
+
+  // Sanitize the data to ensure it is valid JSON
+  let sanitizedData = data
+    ? data.replace('```json', '').replace('```', '')
+    : '';
+
+  const jsonData: CompletionResponse = sanitizedData
+    ? JSON.parse(sanitizedData)
     : { data: [] };
 
   return NextResponse.json(
     {
       success: true,
-      data: data.data,
+      data: jsonData.data,
     },
     {
       status: 200,

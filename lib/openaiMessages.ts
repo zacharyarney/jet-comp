@@ -30,22 +30,28 @@ export function userMessage(
 
   switch (input.metric) {
     case 'top speed':
-      value = 'the top speed of the plane in Mach number';
+      value =
+        'the top speed of the plane in Mach number including the metric "Mach"';
       break;
     case 'fuel efficiency':
-      value = 'the fuel consumption of the plane in gallons per hour';
+      value =
+        'the fuel consumption of the plane in gallons per hour including the metric "gph"';
       break;
     case 'max seats':
       value = 'the number of seats in the plane using the metric "seats"';
       break;
   }
-  // I didn't put a lot of time into this prompt.
-  // The responses are not always accurate, but they are consistent in my testing.
-  const content = `Please rank the following aircraft based on ${input.metric}. 
+
+  /**
+   * The responses to this prompt are not always accurate, but they are relatively
+   * consistent in my testing. One issue I'm seeing is that occasionally GPT will
+   * wrap its response in backticks, which is not valid JSON.
+   */
+  const content = `Please rank the following aircraft based on ${input.metric} from greatest to least. 
 - ${planes}
-Your response should be a JSON string where the data is an array of objects representing the planes in their ranked order. The plane objects should be formatted like this:
+Your response should be a JSON string where the data is an array of objects representing the planes in their ranked order from most to least desirable. The plane objects should be formatted like this:
 {name: string, rank: number, value: string}
-where the value is ${value}. The response should only include valid JSON.`;
+where the value is ${value}. The response should only include valid JSON and should not include backticks.`;
   return {
     role: 'user',
     content,
