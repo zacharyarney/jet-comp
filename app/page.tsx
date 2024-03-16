@@ -17,7 +17,7 @@ export default function Home() {
     data: jets,
     columns: JET_TABLE_COLUMNS,
   });
-  const { comparison, metric, setMetric, handleCompare } = useCompare();
+  const { comparison, handleCompare } = useCompare();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
