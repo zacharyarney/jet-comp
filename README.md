@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Jet Comparisons
 
 ## Getting Started
 
-First, run the development server:
+### Database Setup
+
+This project uses [Prisma](https://www.prisma.io/) to connect to a database. You can use the following steps to set up a
+database:
+
+1. Start up a new PostgreSQL instance and add the connection string to the `.env` file. I'm using the
+   official [Postgres Docker image](https://hub.docker.com/_/postgres) for development, but you can also install from
+   the [official website](https://www.postgresql.org/download/) or `brew install postgres` if you're on a Mac.
+2. Copy the `.env.example` file into a new `.env` file and update `DATABASE_URL` with the connection string for your
+   database.
+3. run `npm run db:setup` to create the database schema and seed the database with initial data from `jet_facts.csv`.
+
+### OpenAI API Key
+
+This project uses the OpenAI API to generate Jet comparisons. To run the app locally, you'll need an API key from
+OpenAI. You'll also need an available balance in you OpenAI account to use the API.
+
+1. Sign up for an account at [OpenAI](https://beta.openai.com/signup/).
+2. Create a new API key in the [API keys section](https://beta.openai.com/account/api-keys).
+3. Replace `OPENAI_API_KEY` in the `.env` file with your API key.
+
+### Running locally
+
+After the database is set up and you've populated your `.env` file with the DB connection string and OpenAI API key, you
+can run the app locally with:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the UI and try compairing some Jets!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Screenshot.png](public/Screenshot.png)
